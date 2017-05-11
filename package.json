@@ -4,12 +4,15 @@
   "private": true,
   "scripts": {
     "security-check": "nsp check",
+    "lint": "tslint -c tslint.json -t verbose ./ng-assets/**/*.ts",
     "share:dev": "lt --port 3000 --subdomain mean-seed-dev",
+    "prebuild:app": "npm run lint",
     "build:app": "rimraf 'public/js/*' && webpack --config config/webpack.dev.js --watch",
-    "build:dev": "babel-node ./serve/bin/www",
-    "serve:dev": "npm-run-all --parallel security-check build:dev build:app",
+    "build:app-watch": "npm run build:app -- --watch",
+    "serve:dev": "babel-node ./serve/bin/www",
+    "start:dev": "npm-run-all --parallel security-check lint serve:dev build:app-watch",
     "test": "",
-    "start": "npm run serve:dev"
+    "start": "npm run start:dev"
   },
   "dependencies": {
     "@angular/common": "^2.4.10",
